@@ -44,13 +44,19 @@ rooms = {
                   'item' : 'monster',
                 },
             'Dining Room': {
+                'north' : 'Weapon Room',
                 'west' : 'Hall',
                 'south' : 'Garden',
                 'item' : 'potion'
                 },
             'Garden' : {
                 'north' : 'Dining Room'
-            }
+            },
+            'Weapon Room' : {
+                'south' : 'Dining Room',
+                'ladder' : 'Kitchen',
+                'item' : 'saber'
+                }
 
          }
 
@@ -100,10 +106,16 @@ while True:
         else:
             #tell them they can't get it
             print('Can\'t get ' + move[1] + '!')
-    # If a player enters a room with a monster
-    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
+    # If a player enters a room with a monster, if saber safe 
+    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item'] and 'saber' not in inventory:
         print('A monster has got you ... GAME OVER!')
         break
+    # if player has saber and enters kitchen, monster killed cookies acquired
+    if currentRoom == 'Kitchen' and 'saber' in inventory:
+        print('You slayed the cookie monster, eat well')
+        inventory.append("cookie stash")
+
+
     # define how a player can win
     if currentRoom == 'Garden' and 'key' in inventory and 'potion' in inventory:
         print('You escaped the house with the ultra rare key and magic potion... YOU WON!')
